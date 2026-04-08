@@ -3,6 +3,8 @@ import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 export type Post = {
   slug: string;
@@ -25,7 +27,11 @@ export async function getPostBySlug(slug: string, dir = 'content/posts'): Promis
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data: frontMatter, content } = matter(fileContents);
 
-    const processedContent = await remark().use(html).process(content);
+    const processedContent = await remark()
+      .use(remarkMath)
+      .use(html)
+      .use(rehypeKatex)
+      .process(content);
     const htmlContent = processedContent.toString();
 
     return {
