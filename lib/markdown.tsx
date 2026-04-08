@@ -1,10 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { remark } from 'remark';
-import html from 'remark-html';
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
 import remarkMath from 'remark-math';
+import remarkRehype from 'remark-rehype';
 import rehypeKatex from 'rehype-katex';
+import rehypeStringify from 'rehype-stringify';
 
 export type Post = {
   slug: string;
@@ -27,10 +29,12 @@ export async function getPostBySlug(slug: string, dir = 'content/posts'): Promis
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data: frontMatter, content } = matter(fileContents);
 
-    const processedContent = await remark()
+    const processedContent = await unified()
+      .use(remarkParse)
       .use(remarkMath)
-      .use(html)
+      .use(remarkRehype)
       .use(rehypeKatex)
+      .use(rehypeStringify)
       .process(content);
     const htmlContent = processedContent.toString();
 
