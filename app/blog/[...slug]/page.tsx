@@ -32,7 +32,7 @@ export async function generateStaticParams() {
 
   function getAllFiles(dirPath: string) {
     const files = fs.readdirSync(dirPath);
-    files.forEach((file) => {
+    files.forEach((file: string) => {
       const filePath = path.join(dirPath, file);
       if (fs.statSync(filePath).isDirectory()) {
         getAllFiles(filePath);
