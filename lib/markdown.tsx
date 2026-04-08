@@ -7,9 +7,9 @@ import html from 'remark-html';
 export type Post = {
   slug: string;
   frontMatter: {
-    title: string;
-    date: string;
-    // 其他 frontMatter 字段...
+    title?: string;
+    date?: string;
+    [key: string]: any;
   };
   htmlContent: string;
 };
@@ -20,7 +20,6 @@ export async function getPostBySlug(slug: string, dir = 'content/posts'): Promis
   }
 
   const fullPath = path.join(process.cwd(), dir, `${slug}.md`).replace(/\//g, path.sep);
-  console.log('Reading file:', fullPath); // 调试：检查路径是否正确
 
   try {
     const fileContents = fs.readFileSync(fullPath, 'utf8');
