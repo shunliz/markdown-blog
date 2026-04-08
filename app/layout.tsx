@@ -25,15 +25,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </header>
 
         {/* 主内容区：左右两列 */}
-        <div className="flex-1 flex">
+        <div className="flex-1 flex overflow-hidden">
           {/* 左侧树形菜单 */}
-          <div className="w-[20%] border-r p-4 overflow-y-auto">
-            <TreeView nodes={tree} />
+          <div className="w-[20%] border-r overflow-y-auto" style={{ height: 'calc(100vh - 120px)' }}>
+            <div className="p-4">
+              <TreeView nodes={tree} />
+            </div>
           </div>
 
           {/* 右侧内容 */}
-          <div className="flex-1 p-6 overflow-y-auto">
-            {children}
+          <div className="flex-1 overflow-y-auto" style={{ height: 'calc(100vh - 120px)' }}>
+            <div className="p-6">
+              {children}
+            </div>
           </div>
         </div>
 
